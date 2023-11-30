@@ -1,0 +1,46 @@
+package application;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Locale;
+import java.util.Scanner;
+
+import entities.Contract;
+import entities.Installments;
+import services.GenerateInstallments;
+
+public class Program {
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        sc.useLocale(Locale.US);
+
+        System.out.println("Entre com os dados do contrato:");
+
+        System.out.print("Numero: ");
+        Integer contractNumber = sc.nextInt();
+
+        System.out.print("Data (dd/MM/yyyy): ");
+        LocalDate date = LocalDate.parse(sc.next(), DATE_FORMATTER);
+
+        System.out.print("Valor do contrato: ");
+        double totalValue = sc.nextDouble();
+        sc.nextLine(); 
+
+        System.out.print("Entre com o numero de parcelas: ");
+        int numberOfInstallments = sc.nextInt();
+
+        Contract contract = new Contract(contractNumber, date, totalValue, numberOfInstallments);
+        List<Installments> installments = GenerateInstallments.generateInstallments(contract);
+
+        System.out.println("\nParcelas:");
+        for (Installments installment : installments) {
+            String formattedDueDate = installment.getDueDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            System.out.println(formattedDueDate + " - " + String.format("%.2f", installment.getAmount()));
+        }
+
+        sc.close();
+    }
+}
