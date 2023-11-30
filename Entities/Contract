@@ -1,0 +1,54 @@
+package entities;
+
+import java.time.LocalDate;
+
+public class Contract {
+    private Integer number;
+    private LocalDate date;
+    private double totalValue;
+    private int numberOfInstallments;
+
+    public Contract(Integer number, LocalDate date, double totalValue, int numberOfInstallments) {
+        this.number = number;
+        this.date = date;
+        this.totalValue = totalValue;
+        this.numberOfInstallments = numberOfInstallments;
+    }
+    
+    public int getNumberOfInstallments() {
+        return numberOfInstallments;
+    }
+
+    public Contract setNumberOfInstallments(int numberOfInstallments) {
+        this.numberOfInstallments = numberOfInstallments;
+        return this;
+    }
+
+    public Contract setNumber(Integer number) {
+        this.number = number;
+        return this;
+    }
+
+    public Contract setDate(LocalDate date) {
+        this.date = date;
+        return this;
+    }
+
+    public Contract setTotalValue(double totalValue) {
+        this.totalValue = totalValue;
+        return this;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public double getTotalValue() {
+        return totalValue;
+    }
+
+}
