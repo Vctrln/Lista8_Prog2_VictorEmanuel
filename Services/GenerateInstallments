@@ -1,0 +1,46 @@
+package services;
+
+import entities.Installments;
+import entities.Contract;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class GenerateInstallments {
+
+	public static List<Installments> generateInstallments(Contract contract) {
+	    validateContract(contract);
+
+	    double totalValue = contract.getTotalValue();
+	    double interestRate = 0.01;
+	    double paymentFee = 0.02;
+
+	    int numberOfInstallments = contract.getNumberOfInstallments();
+	    List<Installments> installments = new ArrayList<>();
+
+	    double installmentValue = totalValue / numberOfInstallments;
+
+	    for (int i = 1; i <= numberOfInstallments; i++) {
+
+	        double interest = installmentValue * interestRate * i;
+	        double amount = installmentValue + interest;
+	        amount *= 1 + paymentFee; 
+
+	        installments.add(new Installments(contract.getDate().plusMonths(i - 1), round(amount, 2)));
+	    }
+
+	    return installments;
+	}
+	
+    private static void validateContract(Contract contract) {
+        if (contract == null || contract.getTotalValue() <= 0 || contract.getNumberOfInstallments() <= 0) {
+            throw new IllegalArgumentException("Invalid contract");
+        }
+    }
+
+    private static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        return Math.round(value * Math.pow(10, places)) / Math.pow(10, places);
+    }
+}
